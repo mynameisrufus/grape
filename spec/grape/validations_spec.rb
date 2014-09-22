@@ -111,6 +111,12 @@ describe Grape::Validations do
         expect(last_response.status).to eq(200)
         expect(last_response.body).to eq('required works')
       end
+
+      it 'works when required_field is present but nil' do
+        get '/required', required_field: nil
+        expect(last_response.status).to eq(200)
+        expect(last_response.body).to eq('required works')
+      end
     end
 
     context 'requires :none using Grape::Entity documentation' do
@@ -213,6 +219,12 @@ describe Grape::Validations do
 
       it "doesn't throw a missing param when param is present" do
         get '/required', items: [{ key: 'hello' }, { key: 'world' }]
+        expect(last_response.status).to eq(200)
+        expect(last_response.body).to eq('required works')
+      end
+
+      it "doesn't throw a missing param when param is present but empty" do
+        get '/required', items: []
         expect(last_response.status).to eq(200)
         expect(last_response.body).to eq('required works')
       end
